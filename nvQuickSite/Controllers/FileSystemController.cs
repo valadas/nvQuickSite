@@ -21,7 +21,6 @@ namespace nvQuickSite.Controllers
     using System.IO;
     using System.Linq;
     using System.Security.AccessControl;
-    using System.Threading;
     using System.Xml.Linq;
 
     using nvQuickSite.Controllers.Exceptions;
