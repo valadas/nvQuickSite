@@ -164,7 +164,7 @@ namespace nvQuickSite.Controllers
             }
             else
             {
-                DeleteDirectory(websiteDir);
+                DeleteDirectory(websiteDir, null, true);
                 Directory.CreateDirectory(websiteDir);
                 SetFolderPermission(appPoolName, websiteDir);
                 SetFolderPermission(authenticatedUsers, websiteDir);
@@ -178,7 +178,7 @@ namespace nvQuickSite.Controllers
             }
             else
             {
-                DeleteDirectory(logsDir);
+                DeleteDirectory(logsDir, null, true);
                 Directory.CreateDirectory(logsDir);
                 SetFolderPermission(dbServiceAccount, logsDir);
                 SetFolderPermission(authenticatedUsers, logsDir);
@@ -199,7 +199,7 @@ namespace nvQuickSite.Controllers
                     databaseController.DropDatabase();
                 }
 
-                DeleteDirectory(databaseDir);
+                DeleteDirectory(databaseDir, null, true);
                 Directory.CreateDirectory(databaseDir);
                 SetFolderPermission(dbServiceAccount, databaseDir);
                 SetFolderPermission(authenticatedUsers, databaseDir);
@@ -219,9 +219,9 @@ namespace nvQuickSite.Controllers
             var logsDir = installFolder + "\\Logs";
             var databaseDir = installFolder + "\\Database";
 
-            DeleteDirectory(websiteDir);
-            DeleteDirectory(logsDir);
-            DeleteDirectory(databaseDir);
+            DeleteDirectory(websiteDir, null, true);
+            DeleteDirectory(logsDir, null, true);
+            DeleteDirectory(databaseDir, null, true);
         }
 
         /// <summary>
@@ -323,9 +323,15 @@ namespace nvQuickSite.Controllers
         /// </summary>
         /// <param name="targetDir">The target directory to delete.</param>
         /// <param name="progress">Reports progress by firing up for each file or folder with it's name.</param>
-        internal static void DeleteDirectory(string targetDir, IProgress<string> progress = null)
+        /// <param name="log">A value indicating whether to log the folder deleting informaiton.</param>
+        internal static void DeleteDirectory(string targetDir, IProgress<string> progress = null, bool log = false)
         {
-            Log.Logger.Information("Deleting directory {targetDir}", targetDir);
+            if (log)
+            {
+                Log.Logger.Information("Deleting directory {targetDir}", targetDir);
+            }
+
+            Log.Logger.Debug("Deleting directory {targetDir}", targetDir);
 
             try
             {

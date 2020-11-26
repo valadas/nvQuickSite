@@ -136,13 +136,13 @@ namespace nvQuickSite.Controls.Sites
                 });
                 try
                 {
-                    await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress)).ConfigureAwait(true);
+                    await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress, true)).ConfigureAwait(true);
                 }
                 catch (IOException)
                 {
                     // Files mights still be streaming (logs for instance) after the site is stopped and deleted. Let's wait a bit and retry once after waiting 10 seconds.
                     Thread.Sleep(10000);
-                    await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress)).ConfigureAwait(true);
+                    await Task.Run(() => FileSystemController.DeleteDirectory(this.sitePath, deleteFilesProgress, true)).ConfigureAwait(true);
                 }
 
                 this.progressDeleteFiles.Value = this.progressDeleteFiles.Maximum;
